@@ -7,7 +7,7 @@ function App(props) {
   return (
       <React.Fragment>
         <Router>
-          <Route path="/dashboard" component={Dashboard} exact/>
+          <Route path="/" component={Dashboard} exact/>
         </Router>
       </React.Fragment>
   );
