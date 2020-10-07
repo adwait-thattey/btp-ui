@@ -82,7 +82,7 @@ class Dashboard extends Component {
         return (
             <Layout>
                 <section>
-                    <div style={ {width: '75%', textAlign:'center', marginLeft:'150px'}}>
+                    <div style={ {width: '75%', textAlign:'center', marginLeft:'150px', marginBottom:'50px'}}>
                         <Table data={this.state.data} columns={this.state.columns}  />
                    </div>
                 </section>

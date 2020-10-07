@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Aux from '../Aux/aux'; 
 import Toolbar from '../../components/Nav/Toolbar/Toolbar';
+// import Footer from '../../components/Footer/Footer';
 
 class layout extends Component {
     state ={
@@ -14,6 +15,7 @@ class layout extends Component {
                 <main>
                     {this.props.children}
                 </main>
+                {/* <Footer /> */}
             </Aux>
         );
     }
