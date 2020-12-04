@@ -1,6 +1,11 @@
 import React from 'react';
 import { Route, BrowserRouter as Router  } from 'react-router-dom';
 import Dashboard from "./containers/dashboard/dashboard";
+import Marketplace from "./containers/marketplace/marketplace"
+import NewDevice from "./containers/mydevices/newDevice"
+import OwnedDevice from "./containers/mydevices/owned"
+import SharedDevice from "./containers/mydevices/shared"
+import DeviceData from "./containers/mydevices/deviceData"
 // import './App.css';
 
 function App(props) {
@@ -8,6 +13,11 @@ function App(props) {
       <React.Fragment>
         <Router>
           <Route path="/" component={Dashboard} exact/>
+          <Route path="/marketplace" component={Marketplace} exact/>
+          <Route path="/devices/owned" component={OwnedDevice} exact/>
+          <Route path="/devices/shared" component={SharedDevice} exact/>
+          <Route path="/devices/new" component={NewDevice} exact/>
+          <Route path="/devices/:deviceId/data" component={DeviceData} exact/>
         </Router>
       </React.Fragment>
   );

@@ -5,9 +5,10 @@ const toolbar = (props) => (
 
 	<header className="header">
         <ul className='items'>
-            <li><div>Devices </div></li>
-            <li><div>Users </div></li>
-            <li><div>Peers </div></li>
+            <li><a href="/marketplace">Marketplace </a></li>
+            <li><a href="/devices/owned">My Devices </a></li>
+            <li><a href="/devices/shared">Shared Devices </a></li>
+            <li><a href="/devices/new">New Device </a></li>
         </ul>   
     </header>
 
