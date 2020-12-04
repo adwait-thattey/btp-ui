@@ -26,7 +26,7 @@ export default function SharedDevices(props) {
         {
           "id": "abcd123",
           "ownerName": "AdwaitOrg",
-          "name": "Adwait's Device 1",
+          "name": "Shared Device 1",
           "createdOn":"Nov 1, 2020",
           "type": "type1",
           "description": "Adwait's Device 1",
@@ -36,7 +36,7 @@ export default function SharedDevices(props) {
         {
             "id": "abcd345",
             "ownerName": "SiddhantOrg",
-            "name": "Siddhant's Device 3",
+            "name": "Shared Device 2",
             "createdOn":"Oct 22, 2020",
             "type": "type1",
             "description": "Siddhant's third device",
@@ -63,16 +63,6 @@ export default function SharedDevices(props) {
             "lastUpdated": 0,
             "coverImage":"/paella.jpg"
           },
-          {
-            "id": "lalapop",
-            "ownerName": "AdwaitOrg",
-            "name": "Ad Dev 7",
-            "createdOn":"Nov 3, 2020",
-            "type": "type1",
-            "description": "Adwait's Device 7",
-            "lastUpdated": 53,
-            "coverImage":"/paella.jpg"
-          },
         
       ])
   })
@@ -94,7 +84,7 @@ export default function SharedDevices(props) {
                 </Grid> */}
                 {marketDevices.map((value) => (
                   <Grid item xs={4}>
-                  <MarketCard device={value} />
+                  <MarketCard device={value} actions={["Learn More",]} />
                   </Grid>
                 ))}
                 
