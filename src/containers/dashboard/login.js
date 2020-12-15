@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewDevice() {
+export default function Login() {
   const classes = useStyles();
 
   return (
@@ -33,26 +33,10 @@ export default function NewDevice() {
             <Paper className={classes.paper}>
               <form className={classes.form} noValidate autoComplete="off">
                 <div>
+                  
                   <div>
-                    <TextField required id="device-id" label="Device ID" variant="outlined" />
+                    <TextField required id="user-key" label="Data Description" variant="outlined" />
                   </div>
-
-                  <br></br>
-
-                  <div>
-                    <TextField required id="device-name" label="Device Name" variant="outlined" />
-                  </div>
-                  <br></br>
-
-                  <div>
-                    <TextField required id="device-description" label="Device Description" variant="outlined" />
-                  </div>
-                  <br></br>
-
-                  <div>
-                    <TextField required id="device-data-description" label="Data Description" variant="outlined" />
-                  </div>
-                  <br></br>
 
                   <div>
                     <Button

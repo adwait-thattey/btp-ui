@@ -25,7 +25,7 @@ export default function Marketplace(props) {
       setMarketDevices([
         {
           "id": "abcd123",
-          "ownerName": "AdwaitOrg",
+          "owner": "Org1MSP",
           "name": "Adwait's Device 1",
           "createdOn":"Nov 1, 2020",
           "type": "type1",
@@ -35,7 +35,7 @@ export default function Marketplace(props) {
         },
         {
             "id": "abcd345",
-            "ownerName": "SiddhantOrg",
+            "owner": "SiddhantOrg",
             "name": "Siddhant's Device 3",
             "createdOn":"Oct 22, 2020",
             "type": "type1",
@@ -45,7 +45,7 @@ export default function Marketplace(props) {
           },
           {
             "id": "kkk12",
-            "ownerName": "MahhamadOrg",
+            "owner": "MahhamadOrg",
             "name": "Mahhamad's Device 2",
             "createdOn":"July 1, 2020",
             "type": "type1",
@@ -55,7 +55,7 @@ export default function Marketplace(props) {
           },
           {
             "id": "gfg45",
-            "ownerName": "AdwaitOrg",
+            "owner": "AdwaitOrg",
             "name": "Adwait Device 5",
             "createdOn":"Oct 4, 2020",
             "type": "type1",
@@ -65,7 +65,7 @@ export default function Marketplace(props) {
           },
           {
             "id": "lalapop",
-            "ownerName": "AdwaitOrg",
+            "owner": "AdwaitOrg",
             "name": "Ad Dev 7",
             "createdOn":"Nov 3, 2020",
             "type": "type1",
@@ -73,9 +73,9 @@ export default function Marketplace(props) {
             "lastUpdated": 53,
             "coverImage":"/paella.jpg"
           },
-        
+
       ])
-  })
+  }, [])
   
   return (
     <Layout>
