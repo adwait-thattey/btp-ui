@@ -26,11 +26,28 @@ const modifyDevicedata = incomingdata => {
     return incomingdata
 }
 
+
 export default function OwnedDeviceInfo(props) {
     const classes = useStyles();
     const [deviceInfo, setDeviceInfo] = useState([]);
     const [deviceTradeAgreement, setDeviceTradeAgreement] = useState([]);
     const [deviceShareStatusInfo, setDeviceShareStatusInfo] = useState([]);
+    const [isDeviceShared, setIsDeviceShared] = useState(false)
+
+
+    const isDeviceSharedCheck = async (deviceId) => {
+        const response = await API.post('/devices/shared/list');
+        const data = response.data.data
+
+        console.log("Is SHared Check data ", data)
+        const isShared =  data.includes(deviceId);
+
+        console.log(isShared)
+
+        setIsDeviceShared(isShared)
+
+    }
+
 
     useEffect(() => {
       async function fetchData(){
@@ -49,6 +66,8 @@ export default function OwnedDeviceInfo(props) {
         }
       }
       fetchData();
+
+      isDeviceSharedCheck(props.match.params.deviceId);
     }, []);
 
     const deviceInfoTabledData = () => {
@@ -90,7 +109,7 @@ export default function OwnedDeviceInfo(props) {
                         size="large"
                         className={classes.button}
                         endIcon={<Icon>create</Icon>}
-                        onClick={() => { window.location = "/devices/edit"}}
+                        onClick={() => { window.location = `/devices/edit/${props.match.params.deviceId}`}}
                     >
                         Edit Info
                     </Button> &nbsp;&nbsp;
@@ -103,6 +122,18 @@ export default function OwnedDeviceInfo(props) {
                         onClick={() => { window.location = "/devices/data/" + deviceInfo["deviceId"] + "?shared=true" }}
                     >
                         View Data
+                    </Button> &nbsp;&nbsp;
+
+                    <Button
+                        variant="contained"
+                        disabled={isDeviceShared}
+                        color="secondary"
+                        size="large"
+                        className={classes.button}
+                        endIcon={<Icon>storage</Icon>}
+                        onClick={() => { window.location = "/devices/data/" + deviceInfo["deviceId"] + "?shared=true" }}
+                    >
+                        Submit Interest Token
                     </Button>
                 </div>
             </section>

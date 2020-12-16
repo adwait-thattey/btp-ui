@@ -25,17 +25,17 @@ const modifyDevicedata = incomingdata => {
 
     return incomingdata
 }
-const modifyTradeAgreementdata = incomingdata => {
-    incomingdata.id = incomingdata.tradeId
-    incomingdata.price = incomingdata.tradePrice
-    incomingdata["Revoke Time"] = incomingdata.revoke_time
-    return incomingdata
+const modifyTradeAgreementsdata = incomingdata => {
+    return incomingdata.map(data => {
+
+        return data
+    })
 }
 export default function OwnedDeviceInfo(props) {
   const classes = useStyles();
   const [deviceInfo, setDeviceInfo] = useState({});
   // const [devicePrivateInfo, setDevicePrivateInfo] = useState({});
-  // const [deviceTradeAgreement, setDeviceTradeAgreement] = useState({});
+  const [deviceTradeAgreements, setDeviceTradeAgreements] = useState([]);
   const [deviceSharedInfo, setDeviceSharedInfo] = useState([]);
 
   useEffect(() => {
@@ -44,12 +44,12 @@ export default function OwnedDeviceInfo(props) {
     
         const res1 = await API.post(`/devices/`,{"deviceId":props.match.params.deviceId});
         // const res2 = await API.get('/devices/owned/private');
-        // const res3 = await API.post(`/devices/tradeagreement`,{"tradeId":"trade" + props.match.params.deviceId});
+        const res3 = await API.post(`/devices/tradeagreements/all`,{"deviceId":props.match.params.deviceId});
         // const res4 = await API.get('/devices/owned/shareStatus');
     
         setDeviceInfo(modifyDevicedata(res1.data.data));
         // setDevicePrivateInfo(res2.data);
-        // setDeviceTradeAgreement(modifyTradeAgreementdata(res3.data.data));
+        setDeviceTradeAgreements(modifyTradeAgreementsdata(res3.data.data));
         // setDeviceSharedInfo(res4.data);
 
       }catch(error){
@@ -201,6 +201,23 @@ const changeOnSale = async (on_sale) => {
       ]
   }
 
+  const tradeAgreementsInfo = () => {
+    console.log("Dewvice Trade AGreements", deviceTradeAgreements)
+    return deviceTradeAgreements.map(ta => {
+
+        return ta
+    })
+  }
+
+    const tradeAgreementsColumns = () => {
+        return [
+            {title: 'Trade Id', field:'tradeId'},
+            {title: 'Trade Price', field:'tradePrice'},
+            {title: 'Revoke Time', field:'revoke_time'},
+            // {title: 'Actions', field:'actions'},
+        ]
+    }
+
   return (
       <Layout>
           <section>
@@ -208,6 +225,8 @@ const changeOnSale = async (on_sale) => {
                   Pending Work on private data, Trade Agreement, Sharing Details
                   <Table title="Device Details" data={deviceInfoTabledData()} columns={deviceInfoTabledColumns()} pageSize={10} />
                   <br/><br/>
+                  <Table title="Trade Agreements" data={tradeAgreementsInfo()} columns={tradeAgreementsColumns()}  />
+                  <br/> <br/>
                   <Table title="Sharing Details" data={sharedInfoWithActions()} columns={sharedInfoColumns()}  />
                   <br/> <br/>
                   <Button
