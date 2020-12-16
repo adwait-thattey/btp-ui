@@ -21,61 +21,73 @@ export default function Marketplace(props) {
   const classes = useStyles();
   const [marketDevices, setMarketDevices] = useState([]);
   
-  useEffect(() => {
-      setMarketDevices([
-        {
-          "id": "abcd123",
-          "owner": "Org1MSP",
-          "name": "Adwait's Device 1",
-          "createdOn":"Nov 1, 2020",
-          "type": "type1",
-          "description": "Adwait's Device 1",
-          "lastUpdated": 5,
-          "coverImage":"/paella.jpg"
-        },
-        {
-            "id": "abcd345",
-            "owner": "SiddhantOrg",
-            "name": "Siddhant's Device 3",
-            "createdOn":"Oct 22, 2020",
-            "type": "type1",
-            "description": "Siddhant's third device",
-            "lastUpdated": 21,
-            "coverImage":"/paella.jpg"
-          },
-          {
-            "id": "kkk12",
-            "owner": "MahhamadOrg",
-            "name": "Mahhamad's Device 2",
-            "createdOn":"July 1, 2020",
-            "type": "type1",
-            "description": "Mahammad's 2nd Device",
-            "lastUpdated": 7,
-            "coverImage":"/paella.jpg"
-          },
-          {
-            "id": "gfg45",
-            "owner": "AdwaitOrg",
-            "name": "Adwait Device 5",
-            "createdOn":"Oct 4, 2020",
-            "type": "type1",
-            "description": "Adwait's Device 5",
-            "lastUpdated": 0,
-            "coverImage":"/paella.jpg"
-          },
-          {
-            "id": "lalapop",
-            "owner": "AdwaitOrg",
-            "name": "Ad Dev 7",
-            "createdOn":"Nov 3, 2020",
-            "type": "type1",
-            "description": "Adwait's Device 7",
-            "lastUpdated": 53,
-            "coverImage":"/paella.jpg"
-          },
+	useEffect(() => {
+    async function fetchData(){
+      try {
+        const response = await API.get('/marketplace');
+        setMarketDevices(response.data);
+      }catch(error){
+        console.log(error);
+      }
+	  }
+		fetchData();
+	}, []);
 
-      ])
-  }, [])
+  // useEffect(() => {
+  //     setMarketDevices([
+  //       {
+  //         "id": "abcd123",
+  //         "owner": "Org1MSP",
+  //         "name": "Adwait's Device 1",
+  //         "createdOn":"Nov 1, 2020",
+  //         "type": "type1",
+  //         "description": "Adwait's Device 1",
+  //         "lastUpdated": 5,
+  //         "coverImage":"/paella.jpg"
+  //       },
+  //       {
+  //           "id": "abcd345",
+  //           "owner": "SiddhantOrg",
+  //           "name": "Siddhant's Device 3",
+  //           "createdOn":"Oct 22, 2020",
+  //           "type": "type1",
+  //           "description": "Siddhant's third device",
+  //           "lastUpdated": 21,
+  //           "coverImage":"/paella.jpg"
+  //         },
+  //         {
+  //           "id": "kkk12",
+  //           "owner": "MahhamadOrg",
+  //           "name": "Mahhamad's Device 2",
+  //           "createdOn":"July 1, 2020",
+  //           "type": "type1",
+  //           "description": "Mahammad's 2nd Device",
+  //           "lastUpdated": 7,
+  //           "coverImage":"/paella.jpg"
+  //         },
+  //         {
+  //           "id": "gfg45",
+  //           "owner": "AdwaitOrg",
+  //           "name": "Adwait Device 5",
+  //           "createdOn":"Oct 4, 2020",
+  //           "type": "type1",
+  //           "description": "Adwait's Device 5",
+  //           "lastUpdated": 0,
+  //           "coverImage":"/paella.jpg"
+  //         },
+  //         {
+  //           "id": "lalapop",
+  //           "owner": "AdwaitOrg",
+  //           "name": "Ad Dev 7",
+  //           "createdOn":"Nov 3, 2020",
+  //           "type": "type1",
+  //           "description": "Adwait's Device 7",
+  //           "lastUpdated": 53,
+  //           "coverImage":"/paella.jpg"
+  //         },
+
+  //     ])
+  // }, [])
   
   return (
     <Layout>
@@ -93,7 +105,7 @@ export default function Marketplace(props) {
                 <Paper className={classes.paper}>xs=6</Paper>
                 </Grid> */}
                 {marketDevices.map((value) => (
-                  <Grid item xs={4}>
+                  <Grid item xs={4} key={value.id} >
                   <MarketCard device={value} />
                   </Grid>
                 ))}

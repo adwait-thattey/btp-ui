@@ -25,43 +25,56 @@ export default function OwnedDeviceInfo(props) {
     const classes = useStyles();
     const [deviceData, setDeviceData] = useState([]);
 
-
     useEffect(() => {
-        setDeviceData( [
-            {
-                "deviceId":"abcd1234",
-                "timestamp": "December 1, 2020, 8:15:30 am",
-                "data": "data5",
-                "txId": "tx05"
-            },
-            {
-                "deviceId":"abcd1234",
-                "timestamp": "December 1, 2020, 6:32:26 am",
-                "data": "data4",
-                "txId": "tx04"
-            },
-            {
-                "deviceId":"abcd1234",
-                "timestamp": "November 29, 2020, 6:14:55 pm",
-                "data": "data3",
-                "txId": "tx03"
-            },
-            {
-                "deviceId":"abcd1234",
-                "timestamp": "November 29, 2020, 4:15:30 am",
-                "data": "data2",
-                "txId": "tx02"
-            },
-            {
-                "deviceId":"abcd1234",
-                "timestamp": "November 29, 2020, 4:12:30 am",
-                "data": "data1",
-                "txId": "tx01"
-            },
-        ]
-    )
+      async function fetchData(){
+        try {
+          const response = await API.get(`/devices/data/${props.match.params.deviceId}`);
+          setDeviceData(response.data);
+        }catch(error){
+          console.log(error);
+        }
+      }
+      fetchData();
+    }, []);
 
-    }, [])
+
+    // useEffect(() => {
+
+    //     setDeviceData( [
+    //         {
+    //             "deviceId":"abcd1234",
+    //             "timestamp": "December 1, 2020, 8:15:30 am",
+    //             "data": "data5",
+    //             "txId": "tx05"
+    //         },
+    //         {
+    //             "deviceId":"abcd1234",
+    //             "timestamp": "December 1, 2020, 6:32:26 am",
+    //             "data": "data4",
+    //             "txId": "tx04"
+    //         },
+    //         {
+    //             "deviceId":"abcd1234",
+    //             "timestamp": "November 29, 2020, 6:14:55 pm",
+    //             "data": "data3",
+    //             "txId": "tx03"
+    //         },
+    //         {
+    //             "deviceId":"abcd1234",
+    //             "timestamp": "November 29, 2020, 4:15:30 am",
+    //             "data": "data2",
+    //             "txId": "tx02"
+    //         },
+    //         {
+    //             "deviceId":"abcd1234",
+    //             "timestamp": "November 29, 2020, 4:12:30 am",
+    //             "data": "data1",
+    //             "txId": "tx01"
+    //         },
+    //     ]
+    // )
+
+    // }, [])
 
     const dataColumns = () => {
         return [

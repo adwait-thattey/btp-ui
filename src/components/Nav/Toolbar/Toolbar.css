@@ -6,7 +6,7 @@
     margin-bottom: 50px;
     background-color: rgb(14, 63, 109);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     padding: 0px 20px;
     box-sizing: border-box;
@@ -14,12 +14,128 @@
     font-weight: bolder;
 }
 
-.items {
-    width: 50%;
-    margin-left: 10%;
+.items {    
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
+    font-size: 1.05rem;
     font-weight: bolder;
+    /* margin-left: 10vw; */
 }
+
+.items li {
+    margin: 2.5vw;
+}
+
+.items a {
+    color: white;
+    /* transition: all 1s; */
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+
+.items a:hover {
+    /* color: rgb(199, 100, 224); */
+    border-bottom: 2px solid rgb(95, 151, 224);
+
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icons li a {
+    text-decoration: none;
+    color: white;
+}
+
+/* .icons li a:hover{
+    color: rgb(199, 100, 224);
+    transition: all 1s;
+} */
+
+
+:root {
+    --bg:  #242526;
+    --bg-accent: #484a4d;
+    --text-color: #dadce1;
+    --nav-size: 75px;
+    --border: 1px solid #474a4d;
+    --border-radius: 10px;
+    --speed: 500ms; 
+}
+
+  /* .nav-icon {
+    width: calc(var(--nav-size) * 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+   */
+  /* Icon Button */
+.icon-button {
+    --button-size: calc(var(--nav-size) * 0.5);
+    width: var(--button-size);
+    height: var(--button-size);
+    background-color: rgb(57, 107, 172);
+    border-radius: 50%;
+    padding: 20px;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 300ms;
+}
+  
+.icon-button:hover {
+    filter: brightness(1.3);
+}
+
+.icon-button:visited{
+    outline: none;
+}
+  
+/* Drop down*/
+
+.dropdown {
+    position: absolute;
+    top: 65px;
+    width: 15vw;
+    transform: translateX(-38%);
+    background-color:  rgb(14, 63, 109);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow: hidden;
+    transition: height var(--speed) ease;
+    z-index: 1;
+    box-shadow: 0px 0px 2px 0px rgb(95, 150, 187) ;
+}
+  
+ 
+.menu-item {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+    transition: background var(--speed);
+    padding: 0.5rem;
+}
+  
+.menu-item .icon-button {
+    margin-right: 0.5rem;
+}
+  
+.menu-item .icon-button:hover {
+    filter: none;
+}
+  
+.menu-item:hover {
+    background-color: rgb(12, 98, 155);
+}
+  
+.icon-right {
+    margin-left: auto;
+}
+  

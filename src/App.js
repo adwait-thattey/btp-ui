@@ -16,7 +16,7 @@ function App(props) {
       <React.Fragment>
         <Router>
           <Route path="/" component={Dashboard} exact/>
-            <Route path="/marketplace" component={Marketplace} exact/>
+            <Route path="/marketplace" fetchUrl="/marketplace" component={Marketplace} exact/>
             <Route path="/transactions" component={TransactionLog} exact/>
             <Route path="/devices/owned/:deviceId/" component={OwnedDeviceInfo} exact/>
             <Route path="/devices/shared/:deviceId/" component={SharedDeviceInfo} exact/>

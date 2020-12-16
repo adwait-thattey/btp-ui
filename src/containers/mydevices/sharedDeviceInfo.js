@@ -28,32 +28,51 @@ export default function OwnedDeviceInfo(props) {
     const [deviceShareStatusInfo, setDeviceShareStatusInfo] = useState([]);
 
     useEffect(() => {
-        setDeviceInfo(
-            {
-                "id": "abcd123",
-                "owner": "AdwaitOrg",
-                "name": "Shared Device 1",
-                "createdOn":"Nov 1, 2020",
-                "type": "type1",
-                "description": "Adwait's Device 1",
-                "lastUpdated": 5,
-                "coverImage":"/paella.jpg",
-                "onSale":true
-            })
+      async function fetchData(){
+        try {
+      
+          const res1 = await API.get(`/devices/shared/${props.match.params.deviceId}`);
+          const res2 = await API.get('/devices/shared/tradeAgreement');
+          const res3 = await API.get('/devices/shared/shareStatus');
+      
+          setDeviceInfo(res1.data);
+          setDeviceTradeAgreement(res2.data);
+          setDeviceShareStatusInfo(res3.data);
+  
+        }catch(error){
+          console.log(error);
+        }
+      }
+      fetchData();
+    }, []);
 
-        setDeviceTradeAgreement(
-            {
-                "id":"trade3345",
-                "price":"300"
-            }
-        )
+    // useEffect(() => {
+    //     setDeviceInfo(
+    //         {
+    //             "id": "abcd123",
+    //             "owner": "AdwaitOrg",
+    //             "name": "Shared Device 1",
+    //             "createdOn":"Nov 1, 2020",
+    //             "type": "type1",
+    //             "description": "Adwait's Device 1",
+    //             "lastUpdated": 5,
+    //             "coverImage":"/paella.jpg",
+    //             "onSale":true
+    //         })
 
-        setDeviceShareStatusInfo(
-            {
-                "shared":true
-            }
-        )
-    }, [])
+    //     setDeviceTradeAgreement(
+    //         {
+    //             "id":"trade3345",
+    //             "price":"300"
+    //         }
+    //     )
+
+    //     setDeviceShareStatusInfo(
+    //         {
+    //             "shared":true
+    //         }
+    //     )
+    // }, [])
 
     const deviceInfoTabledData = () => {
         const keysToDisplay = ["id", "owner", "description"]

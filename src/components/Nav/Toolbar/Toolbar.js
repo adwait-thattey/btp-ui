@@ -1,26 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Toolbar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUsers } from '@fortawesome/free-solid-svg-icons'
 
-const toolbar = (props) => (
+function Toolbar(props){
 
-	<header className="header">
-        <ul className='items'>
-            {/*<li><a href="/marketplace">Marketplace </a></li>
-            <li><a href="/devices/owned">My Devices </a></li>
-            <li><a href="/devices/shared">Shared Devices </a></li>
-            <li><a href="/devices/new">New Device </a></li>
-            <li><a href="/devices/1234/data">Sample Device Page </a></li>
-            <li><a href="/transactions">Transaction Logs </a></li>*/}
+    return (	
+        <header className="header">
+          <ul className='items'>
+                <li><a href="/marketplace">Marketplace </a></li>
+                <li><a href="/devices/owned">My Devices </a></li>
+                <li><a href="/devices/shared">Shared Devices </a></li>
+                <li><a href="/transactions">Transaction Logs </a></li>
+                <li><a href="/logout">Logout </a></li>
+           </ul>           
+            <ul className="icons">
+                <NavIcon icon={<FontAwesomeIcon icon={faUsers} size="lg" />} >
+                    <DropdownMenu />
+                </NavIcon>
+            </ul>
+        </header>
+    )
+}
 
-            <li><a href="/marketplace">Marketplace </a></li>
-            <li><a href="/devices/owned">My Devices </a></li>
-            <li><a href="/devices/shared">Shared Devices </a></li>
-            <li><a href="/transactions">Transaction Logs </a></li>
-            <li><a href="/logout">Logout </a></li>
+function NavIcon(props){
 
-        </ul>   
-    </header>
+    const [open, setOpen] = useState(false)
+    
+    return (
+        <li className='nav-icon'>
+            <a href='#' className='icon-button' onClick = {()=> setOpen(!open)} >
+                {props.icon}
+            </a>
+            {open && props.children}
+       </li>     
+    );
+}
 
-)
+function DropdownMenu() {
+    return (
+      <div className="dropdown">
+          <DropdownItem leftIcon={<FontAwesomeIcon icon={faUsers} size="lg" />}>Org1</DropdownItem>
+          <DropdownItem leftIcon={<FontAwesomeIcon icon={faUsers} size="lg" />}>Org2</DropdownItem>
+          <DropdownItem leftIcon={<FontAwesomeIcon icon={faUsers} size="lg" />}>org3</DropdownItem>
+      </div>
+    )
+}
 
-export default toolbar
+function DropdownItem(props) {
+    return (
+      <a href="#" className="menu-item">
+        <span className="icon-button">{props.leftIcon}</span>
+        {props.children}
+      </a>
+    );
+  }
+  
+
+export default Toolbar

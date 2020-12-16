@@ -19,53 +19,65 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SharedDevices(props) {
   const classes = useStyles();
-  const [marketDevices, setMarketDevices] = useState([]);
-  
+  const [sharedDevices, setSharedDevices] = useState([]);
+
   useEffect(() => {
-      setMarketDevices([
-        {
-          "id": "abcd123",
-          "owner": "AdwaitOrg",
-          "name": "Shared Device 1",
-          "createdOn":"Nov 1, 2020",
-          "type": "type1",
-          "description": "Adwait's Device 1",
-          "lastUpdated": 5,
-          "coverImage":"/paella.jpg"
-        },
-        {
-            "id": "abcd345",
-            "owner": "SiddhantOrg",
-            "name": "Shared Device 2",
-            "createdOn":"Oct 22, 2020",
-            "type": "type1",
-            "description": "Siddhant's third device",
-            "lastUpdated": 21,
-            "coverImage":"/paella.jpg"
-          },
-          {
-            "id": "kkk12",
-            "owner": "MahhamadOrg",
-            "name": "Mahhamad's Device 2",
-            "createdOn":"July 1, 2020",
-            "type": "type1",
-            "description": "Mahammad's 2nd Device",
-            "lastUpdated": 7,
-            "coverImage":"/paella.jpg"
-          },
-          {
-            "id": "gfg45",
-            "owner": "AdwaitOrg",
-            "name": "Adwait Device 5",
-            "createdOn":"Oct 4, 2020",
-            "type": "type1",
-            "description": "Adwait's Device 5",
-            "lastUpdated": 0,
-            "coverImage":"/paella.jpg"
-          },
+    async function fetchData(){
+      try {
+        const response = await API.get('/devices/shared');
+        setSharedDevices(response.data);
+      }catch(error){
+        console.log(error);
+      }
+	  }
+		fetchData();
+	}, []);
+
+  // useEffect(() => {
+  //     setSharedDevices([
+  //       {
+  //         "id": "abcd123",
+  //         "owner": "AdwaitOrg",
+  //         "name": "Shared Device 1",
+  //         "createdOn":"Nov 1, 2020",
+  //         "type": "type1",
+  //         "description": "Adwait's Device 1",
+  //         "lastUpdated": 5,
+  //         "coverImage":"/paella.jpg"
+  //       },
+  //       {
+  //           "id": "abcd345",
+  //           "owner": "SiddhantOrg",
+  //           "name": "Shared Device 2",
+  //           "createdOn":"Oct 22, 2020",
+  //           "type": "type1",
+  //           "description": "Siddhant's third device",
+  //           "lastUpdated": 21,
+  //           "coverImage":"/paella.jpg"
+  //         },
+  //         {
+  //           "id": "kkk12",
+  //           "owner": "MahhamadOrg",
+  //           "name": "Mahhamad's Device 2",
+  //           "createdOn":"July 1, 2020",
+  //           "type": "type1",
+  //           "description": "Mahammad's 2nd Device",
+  //           "lastUpdated": 7,
+  //           "coverImage":"/paella.jpg"
+  //         },
+  //         {
+  //           "id": "gfg45",
+  //           "owner": "AdwaitOrg",
+  //           "name": "Adwait Device 5",
+  //           "createdOn":"Oct 4, 2020",
+  //           "type": "type1",
+  //           "description": "Adwait's Device 5",
+  //           "lastUpdated": 0,
+  //           "coverImage":"/paella.jpg"
+  //         },
         
-      ])
-  }, [])
+  //     ])
+  // }, [])
   
   return (
     <Layout>
@@ -82,8 +94,8 @@ export default function SharedDevices(props) {
                 <Grid item xs={6}>
                 <Paper className={classes.paper}>xs=6</Paper>
                 </Grid> */}
-                {marketDevices.map((value) => (
-                  <Grid item xs={4}>
+                {sharedDevices.map((value) => (
+                  <Grid item xs={4} key={value.id}>
                   <MarketCard device={value} actions={["Learn More",]} />
                   </Grid>
                 ))}
