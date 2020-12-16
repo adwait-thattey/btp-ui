@@ -17,6 +17,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const modifySharedDeevicesData = incoming_data => {
+
+    return incoming_data.map(data => {
+
+        const obj = {
+            id: data,
+            owner:"Org2MSP",
+            description:"Shared Device",
+            coverImage : "/paella.jpg"
+        }
+
+        return obj
+    })
+}
+
 export default function SharedDevices(props) {
   const classes = useStyles();
   const [sharedDevices, setSharedDevices] = useState([]);
@@ -24,8 +39,8 @@ export default function SharedDevices(props) {
   useEffect(() => {
     async function fetchData(){
       try {
-        const response = await API.get('/devices/shared');
-        setSharedDevices(response.data);
+        const response = await API.post('/devices/shared/list');
+        setSharedDevices(modifySharedDeevicesData(response.data.data));
       }catch(error){
         console.log(error);
       }

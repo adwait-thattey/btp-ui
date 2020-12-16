@@ -39,10 +39,16 @@ export default function OwnedDeviceInfo(props) {
     useEffect(() => {
       async function fetchData(){
         try {
-          const response = await API.post(`/devices/data/all`, {"deviceId":props.match.params.deviceId});
+          let response = await API.post(`/devices/data/all`, {"deviceId":props.match.params.deviceId});
           setDeviceData(modifyDevicedata(response.data.data));
         }catch(error){
-          console.log(error);
+
+            console.log("Direct data retrieve failed. Trying shared data")
+            const res1 = await API.post(`/devices/`,{"deviceId":props.match.params.deviceId});
+            const deviceData = res1.data.data
+            let response = await API.post(`/devices/shared/data/all`, {"deviceId":props.match.params.deviceId, "ownerId":deviceData.owner});
+            setDeviceData(modifyDevicedata(response.data.data));
+            console.log(error);
         }
       }
       fetchData();

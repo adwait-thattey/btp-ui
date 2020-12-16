@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const modifyDevicedata = incomingdata => {
+
+    return incomingdata
+}
+
 export default function OwnedDeviceInfo(props) {
     const classes = useStyles();
     const [deviceInfo, setDeviceInfo] = useState([]);
@@ -30,14 +35,14 @@ export default function OwnedDeviceInfo(props) {
     useEffect(() => {
       async function fetchData(){
         try {
-      
-          const res1 = await API.get(`/devices/shared/${props.match.params.deviceId}`);
-          const res2 = await API.get('/devices/shared/tradeAgreement');
-          const res3 = await API.get('/devices/shared/shareStatus');
-      
-          setDeviceInfo(res1.data);
-          setDeviceTradeAgreement(res2.data);
-          setDeviceShareStatusInfo(res3.data);
+
+        const res1 = await API.post(`/devices/`,{"deviceId":props.match.params.deviceId});
+          // const res2 = await API.get('/devices/shared/tradeAgreement');
+          // const res3 = await API.get('/devices/shared/shareStatus');
+
+            setDeviceInfo(modifyDevicedata(res1.data.data));
+          // setDeviceTradeAgreement(res2.data);
+          // setDeviceShareStatusInfo(res3.data);
   
         }catch(error){
           console.log(error);
@@ -75,19 +80,19 @@ export default function OwnedDeviceInfo(props) {
     // }, [])
 
     const deviceInfoTabledData = () => {
-        const keysToDisplay = ["id", "owner", "description"]
-        const tradeAgreementKeysToDisplay = ["id", "price"]
+        const keysToDisplay = ["deviceId", "owner", "description", "dataDescription", "onSale"]
+        // const tradeAgreementKeysToDisplay = ["id", "price"]
 
         const deviceInfoTableObject = []
         for (const key of keysToDisplay) {
             deviceInfoTableObject.push({"key":key, "value":deviceInfo[key]})
         }
 
-        for (const key of tradeAgreementKeysToDisplay) {
-            deviceInfoTableObject.push({"key":"Trade " + key, "value":deviceTradeAgreement[key]})
-        }
+        // for (const key of tradeAgreementKeysToDisplay) {
+        //     deviceInfoTableObject.push({"key":"Trade " + key, "value":deviceTradeAgreement[key]})
+        // }
 
-        deviceInfoTableObject.push({"key":"Shared", "value":deviceShareStatusInfo["shared"]})
+        // deviceInfoTableObject.push({"key":"Shared", "value":deviceShareStatusInfo["shared"]})
 
         return deviceInfoTableObject
     }
@@ -121,10 +126,9 @@ export default function OwnedDeviceInfo(props) {
                         variant="contained"
                         color="secondary"
                         size="large"
-                        disabled={!deviceShareStatusInfo["shared"]}
                         className={classes.button}
                         endIcon={<Icon>storage</Icon>}
-                        onClick={() => { window.location = "/devices/data/" + deviceInfo["id"] }}
+                        onClick={() => { window.location = "/devices/data/" + deviceInfo["deviceId"] + "?shared=true" }}
                     >
                         View Data
                     </Button>
