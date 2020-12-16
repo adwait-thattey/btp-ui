@@ -17,6 +17,59 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const modifyMarketData = (incomingData) => {
+
+/*
+* Incoming:
+* [
+        {
+            "owner": "Org1MSP",
+            "deviceId": "o1dev2",
+            "dataDescription": "Same random 01 data",
+            "description": "new details of device 002",
+            "onSale": true
+        },
+        {
+            "owner": "Org1MSP",
+            "deviceId": "o1dev3",
+            "dataDescription": "Same random 03 data",
+            "description": "new details of device 002",
+            "onSale": true
+        }
+    ]
+*
+* Out:
+*   [
+        {
+          "id": "abcd123",
+          "owner": "Org1MSP",
+          "name": "Adwait's Device 1",
+          "createdOn":"Nov 1, 2020",
+          "type": "type1",
+          "description": "Adwait's Device 1",
+          "lastUpdated": 5,
+          "coverImage":"/paella.jpg"
+        },
+        {
+            "id": "abcd345",
+            "owner": "SiddhantOrg",
+            "name": "Siddhant's Device 3",
+            "createdOn":"Oct 22, 2020",
+            "type": "type1",
+            "description": "Siddhant's third device",
+            "lastUpdated": 21,
+            "coverImage":"/paella.jpg"
+          },
+      ]
+* */
+        console.log("API Response", incomingData)
+        return incomingData.map(data => {
+            data.id = data.deviceId
+            data.coverImage = "/paella.jpg"
+            return data
+        })
+}
+
 export default function Marketplace(props) {
   const classes = useStyles();
   const [marketDevices, setMarketDevices] = useState([]);
@@ -24,8 +77,8 @@ export default function Marketplace(props) {
 	useEffect(() => {
     async function fetchData(){
       try {
-        const response = await API.get('/marketplace');
-        setMarketDevices(response.data);
+        const response = await API.post('/market/devices/onsale');
+        setMarketDevices(modifyMarketData(response.data.data));
       }catch(error){
         console.log(error);
       }

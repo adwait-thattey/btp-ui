@@ -21,32 +21,75 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const modifyDevicedata = incomingdata => {
+
+    return incomingdata
+}
+const modifyTradeAgreementdata = incomingdata => {
+    incomingdata.id = incomingdata.tradeId
+    incomingdata.price = incomingdata.tradePrice
+    incomingdata["Revoke Time"] = incomingdata.revoke_time
+    return incomingdata
+}
 export default function OwnedDeviceInfo(props) {
   const classes = useStyles();
   const [deviceInfo, setDeviceInfo] = useState({});
-  const [devicePrivateInfo, setDevicePrivateInfo] = useState({});
-  const [deviceTradeAgreement, setDeviceTradeAgreement] = useState({});
+  // const [devicePrivateInfo, setDevicePrivateInfo] = useState({});
+  // const [deviceTradeAgreement, setDeviceTradeAgreement] = useState({});
   const [deviceSharedInfo, setDeviceSharedInfo] = useState([]);
 
   useEffect(() => {
     async function fetchData(){
       try {
     
-        const res1 = await API.get(`/devices/owned/${props.match.params.deviceId}`);
-        const res2 = await API.get('/devices/owned/private');
-        const res3 = await API.get('/devices/owned/tradeAgreement');
-        const res4 = await API.get('/devices/owned/shareStatus');
+        const res1 = await API.post(`/devices/`,{"deviceId":props.match.params.deviceId});
+        // const res2 = await API.get('/devices/owned/private');
+        // const res3 = await API.post(`/devices/tradeagreement`,{"tradeId":"trade" + props.match.params.deviceId});
+        // const res4 = await API.get('/devices/owned/shareStatus');
     
-        setDeviceInfo(res1.data);
-        setDevicePrivateInfo(res2.data);
-        setDeviceTradeAgreement(res3.data);
-        setDeviceSharedInfo(res4.data);
+        setDeviceInfo(modifyDevicedata(res1.data.data));
+        // setDevicePrivateInfo(res2.data);
+        // setDeviceTradeAgreement(modifyTradeAgreementdata(res3.data.data));
+        // setDeviceSharedInfo(res4.data);
 
       }catch(error){
         console.log(error);
       }
     }
     fetchData();
+
+/*      setDevicePrivateInfo(
+          {
+              "deviceSecret":"devicepass"
+          }
+      )*/
+
+/*      setDeviceTradeAgreement(
+          {
+              "id":"trade3345",
+              "price":"300"
+          }
+      )*/
+      setDeviceSharedInfo(
+          [
+              {
+                  "target":"Org2MSP",
+                  "status":"shared",
+                  "endTime":"18 Dec 2020 6:30 PM"
+              },
+              {
+                  "target":"Org3MSP",
+                  "status":"pending",
+                  "endTime":"18 Dec 2020 6:30 PM"
+              },
+              {
+                  "target":"Org1MSP",
+                  "status":"pending",
+                  "endTime":"18 Dec 2020 6:30 PM"
+              }
+          ]
+
+      )
   }, []);
 
   // useEffect(() => {
@@ -63,41 +106,21 @@ export default function OwnedDeviceInfo(props) {
   //             "onSale":true
   //         })
 
-  //     setDevicePrivateInfo(
-  //         {
-  //             "deviceSecret":"devicepass"
-  //         }
-  //     )
 
-  //     setDeviceTradeAgreement(
-  //         {
-  //             "id":"trade3345",
-  //             "price":"300"
-  //         }
-  //     )
-  //     setDeviceSharedInfo(
-  //     [
-  //                 {
-  //                     "target":"Org2MSP",
-  //                     "status":"shared",
-  //                     "endTime":"18 Dec 2020 6:30 PM"
-  //                 },
-  //                 {
-  //                     "target":"Org3MSP",
-  //                     "status":"pending",
-  //                     "endTime":"18 Dec 2020 6:30 PM"
-  //                 },
-  //                 {
-  //                     "target":"Org1MSP",
-  //                     "status":"pending",
-  //                     "endTime":"18 Dec 2020 6:30 PM"
-  //                 }
-  //             ]
-
-  //     )
 
 
   // }, [])
+const changeOnSale = async (on_sale) => {
+    const res1 = await API.post(`/devices/`,{"deviceId":props.match.params.deviceId});
+    const deviceData = res1.data.data
+    const updateData = {
+        deviceId:deviceData.deviceId,
+        description: deviceData.description,
+        on_sale:on_sale
+    }
+    const res2 = await API.post(`/devices/update`,updateData);
+    window.location = `/devices/owned/${updateData.deviceId}`;
+}
 
   const sharedInfoWithActions = () => {
       const completeSharedInfo = [...deviceSharedInfo]
@@ -123,24 +146,43 @@ export default function OwnedDeviceInfo(props) {
   }
 
   const deviceInfoTabledData = () => {
-      const keysToDisplay = ["id", "owner", "description"]
-      const privateKeysToDisplay = ["deviceSecret",]
-      const tradeAgreementKeysToDisplay = ["id", "price"]
+      const keysToDisplay = ["deviceId", "owner", "description", "dataDescription"]
+      // const privateKeysToDisplay = ["deviceSecret",]
+      // const tradeAgreementKeysToDisplay = ["id", "price", "Revoke Time"]
 
       const deviceInfoTableObject = []
       for (const key of keysToDisplay) {
           deviceInfoTableObject.push({"key":key, "value":deviceInfo[key]})
       }
 
+/*
       for (const key of privateKeysToDisplay) {
           deviceInfoTableObject.push({"key":key, "value":devicePrivateInfo[key]})
       }
+*/
 
-      if (deviceInfo.onSale === true)
-          for (const key of tradeAgreementKeysToDisplay) {
-              deviceInfoTableObject.push({"key":"Trade " + key, "value":deviceTradeAgreement[key]})
-          }
 
+      // for (const key of tradeAgreementKeysToDisplay) {
+      //     deviceInfoTableObject.push({"key":"Trade " + key, "value":deviceTradeAgreement[key]})
+      // }
+
+      const onSaleVal = deviceInfo["onSale"]
+      console.log(deviceInfo)
+      if (onSaleVal !== undefined) {
+          const onSaleToggleButton = <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              className={classes.button}
+              endIcon={<Icon>cached</Icon>}
+              onClick={() => {
+                  changeOnSale(!onSaleVal)
+              }}
+          >
+              {onSaleVal.toString()}
+          </Button>
+          deviceInfoTableObject.push({"key": "On Sale", "value": onSaleToggleButton})
+      }
       return deviceInfoTableObject
   }
   const deviceInfoTabledColumns = () => {
@@ -163,6 +205,7 @@ export default function OwnedDeviceInfo(props) {
       <Layout>
           <section>
               <div style={ {width: '75%', textAlign:'center', marginLeft:'150px', marginBottom:'50px'}}>
+                  Pending Work on private data, Trade Agreement, Sharing Details
                   <Table title="Device Details" data={deviceInfoTabledData()} columns={deviceInfoTabledColumns()} pageSize={10} />
                   <br/><br/>
                   <Table title="Sharing Details" data={sharedInfoWithActions()} columns={sharedInfoColumns()}  />
@@ -173,7 +216,7 @@ export default function OwnedDeviceInfo(props) {
                       size="large"
                       className={classes.button}
                       endIcon={<Icon>create</Icon>}
-                      onClick={() => { window.location = "/devices/edit"}}
+                      onClick={() => { window.location = `/devices/edit/${props.match.params.deviceId}`}}
                   >
                       Edit Info
                   </Button> &nbsp;&nbsp;
@@ -182,8 +225,18 @@ export default function OwnedDeviceInfo(props) {
                       color="secondary"
                       size="large"
                       className={classes.button}
+                      endIcon={<Icon>create</Icon>}
+                      onClick={() => { window.location = `/devices/tradeagreement/${props.match.params.deviceId}`}}
+                  >
+                      Add Trade Agreement
+                  </Button> &nbsp;&nbsp;
+                  <Button
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      className={classes.button}
                       endIcon={<Icon>storage</Icon>}
-                      onClick={() => { window.location = "/devices/data/" + deviceInfo["id"] }}
+                      onClick={() => { window.location = "/devices/data/" + deviceInfo["deviceId"] }}
                   >
                       View Data
                   </Button>

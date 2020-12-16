@@ -12,13 +12,12 @@ import Grid from '@material-ui/core/Grid';
 import API from '../../utils/axios';
 import {Checkbox, Switch, TextareaAutosize} from '@material-ui/core';
 
-class NewDevice extends Component{
+class EditDevice extends Component{
 
   state = {
-    deviceId: '',
+    deviceId: this.props.match.params.deviceId,
     dataDescription: '',
     deviceDescription: '',
-    deviceSecret: '',
 
   }
 
@@ -32,19 +31,20 @@ class NewDevice extends Component{
 
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     console.log("Starting Submission for Create Device")
     event.preventDefault();
+    const getResponse = await API.post('/devices/', {"deviceId":"o1dev2"});
     const data = {
       deviceId: this.state.deviceId,
       // name: this.state.deviceName,
       description: this.state.deviceDescription,
-      dataDescription: this.state.dataDescription,
-      deviceSecret: this.state.deviceSecret
+      on_sale:getResponse.data.data.onSale
     }
     try{
       async function postData(){
-        const response = await API.post('/devices/register', data );
+        console.log("Input data", data)
+        const response = await API.post('/devices/update', data );
         console.log(response.data);
         window.location = `/devices/owned/${data.deviceId}`;
         
@@ -99,32 +99,8 @@ class NewDevice extends Component{
                         variant="outlined" />
                     </div>
                     <br></br>*/}
-  
 
-  
-                    <div>
-                      <TextField 
-                        required 
-                        id="device-data-description"  
-                        onChange={this.handleChange('dataDescription')}
-                        label="Data Description" 
-                        variant="outlined"
-                        value={this.state.dataDescription}
-                      />
-                    </div>
-                    <br></br>
 
-                    <div>
-                      <TextField
-                          required
-                          id="device-secret"
-                          onChange={this.handleChange('deviceSecret')}
-                          label="Device Secret"
-                          variant="outlined"
-                          value={this.state.deviceSecret}
-                      />
-                    </div>
-                     <br/>
                     {/*<div>
                       <Switch
                           checked={false}
@@ -172,4 +148,4 @@ const classes = makeStyles((theme) => ({
   },
 }));
 
-export default NewDevice;
+export default EditDevice;

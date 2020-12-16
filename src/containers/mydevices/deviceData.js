@@ -9,6 +9,8 @@ import Table from "../../components/devices/Table";
 import Icon from "@material-ui/core/Icon";
 import Button from "@material-ui/core/Button";
 import config from "../../config/config";
+import {Tooltip} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,6 +23,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const modifyDevicedata = incomingdata => {
+
+    return incomingdata.map(data => {
+        data.data = data.dataJSON
+        data.txId = <Button> {data.transactionId}</Button>
+        return data
+    })
+}
+
 export default function OwnedDeviceInfo(props) {
     const classes = useStyles();
     const [deviceData, setDeviceData] = useState([]);
@@ -28,8 +39,8 @@ export default function OwnedDeviceInfo(props) {
     useEffect(() => {
       async function fetchData(){
         try {
-          const response = await API.get(`/devices/data/${props.match.params.deviceId}`);
-          setDeviceData(response.data);
+          const response = await API.post(`/devices/data/all`, {"deviceId":props.match.params.deviceId});
+          setDeviceData(modifyDevicedata(response.data.data));
         }catch(error){
           console.log(error);
         }
@@ -78,9 +89,10 @@ export default function OwnedDeviceInfo(props) {
 
     const dataColumns = () => {
         return [
-            {title: 'TxID', field:'txId'},
+
             {title: 'timestamp', field:'timestamp'},
             {title: 'data', field:'data'},
+            {title: 'TxID', field:'txId'},
         ]
     }
 

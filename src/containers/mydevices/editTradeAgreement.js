@@ -12,41 +12,46 @@ import Grid from '@material-ui/core/Grid';
 import API from '../../utils/axios';
 import {Checkbox, Switch, TextareaAutosize} from '@material-ui/core';
 
-class NewDevice extends Component{
+class EditTradeAgreement extends Component{
 
   state = {
-    deviceId: '',
-    dataDescription: '',
-    deviceDescription: '',
-    deviceSecret: '',
+    deviceId: this.props.match.params.deviceId,
+    tradeId:'',
+    tradePrice: '',
+    tradeRevokeTime: '',
 
   }
 
 
 
   handleChange = input => event => {
+    console.log("Handle change called")
     const formFields = {...this.state}
     formFields[input] = event.target.value;
     this.setState(formFields);
 
 
+    console.log(this.state)
+
   };
 
   handleSubmit = (event) => {
     console.log("Starting Submission for Create Device")
+    console.log(this.state)
+    const inputdata = this.state
     event.preventDefault();
     const data = {
       deviceId: this.state.deviceId,
+      tradeId: "trade" + this.state.tradeId,
       // name: this.state.deviceName,
-      description: this.state.deviceDescription,
-      dataDescription: this.state.dataDescription,
-      deviceSecret: this.state.deviceSecret
+      tradePrice: parseInt(this.state.tradePrice),
+      revoke_time: new Date(this.state.tradeRevokeTime).getTime()/1000,
     }
     try{
       async function postData(){
-        const response = await API.post('/devices/register', data );
+        const response = await API.post('/devices/agreetosell', data );
         console.log(response.data);
-        window.location = `/devices/owned/${data.deviceId}`;
+        window.location = `/devices/owned/${inputdata.deviceId}`;
         
       }
       postData();
@@ -77,15 +82,26 @@ class NewDevice extends Component{
                     </div>
   
                     <br></br>
+                    <div>
+                      <TextField
+                          required
+                          id="trade-id"
+                          label="Trade ID"
+                          onChange={this.handleChange('tradeId')}
+                          variant="outlined"
+                          value={this.state.tradeId}
+                      />
+                    </div>
 
+                    <br></br>
                     <div>
                       <TextField
                           required
                           id="device-description"
-                          onChange={this.handleChange('deviceDescription')}
-                          label="Device Description"
+                          onChange={this.handleChange('tradePrice')}
+                          label="Trade Price"
                           variant="outlined"
-                          value={this.state.deviceDescription}
+                          value={this.state.tradePrice}
                       />
                     </div>
                     <br></br>
@@ -103,41 +119,19 @@ class NewDevice extends Component{
 
   
                     <div>
-                      <TextField 
-                        required 
-                        id="device-data-description"  
-                        onChange={this.handleChange('dataDescription')}
-                        label="Data Description" 
-                        variant="outlined"
-                        value={this.state.dataDescription}
-                      />
-                    </div>
-                    <br></br>
-
-                    <div>
                       <TextField
-                          required
-                          id="device-secret"
-                          onChange={this.handleChange('deviceSecret')}
-                          label="Device Secret"
+                          id="datetime-local"
+                          label="Revoke Time"
+                          type="datetime-local"
+                          defaultValue="2020-12-17T00:00"
+                          // className={classes.textField}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
                           variant="outlined"
-                          value={this.state.deviceSecret}
+                          onChange={this.handleChange("tradeRevokeTime")}
                       />
                     </div>
-                     <br/>
-                    {/*<div>
-                      <Switch
-                          checked={false}
-                          onChange={this.handleChange('onSale')}
-                          name="deviceOnSale"
-                          // inputProps={{ 'aria-label': 'secondary checkbox' }}
-                      />
-                      <Checkbox
-                          checked={false}
-                          onChange={this.handleChange('onSale')}
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
-                      />
-                    </div>*/}
                     <br/><br/>
                     <div>
                       <Button
@@ -172,4 +166,4 @@ const classes = makeStyles((theme) => ({
   },
 }));
 
-export default NewDevice;
+export default EditTradeAgreement;
