@@ -12,10 +12,11 @@ import Grid from '@material-ui/core/Grid';
 import API from '../../utils/axios';
 import {Checkbox, Switch, TextareaAutosize} from '@material-ui/core';
 
-class EditTradeAgreement extends Component{
+class WishToBuy extends Component{
 
   state = {
     deviceId: this.props.match.params.deviceId,
+    sellerId:'',
     tradeId:'',
     tradePrice: '',
     tradeRevokeTime: '',
@@ -43,13 +44,13 @@ class EditTradeAgreement extends Component{
     const data = {
       deviceId: this.state.deviceId,
       tradeId: this.state.tradeId,
-      // name: this.state.deviceName,
+      seller_id: this.state.sellerId,
       tradePrice: parseInt(this.state.tradePrice),
       revoke_time: new Date(this.state.tradeRevokeTime).getTime()/1000,
     }
     try{
       async function postData(){
-        const response = await API.post('/devices/agreetosell', data );
+        const response = await API.post('/market/devices/interesttokens/submit', data );
         console.log(response.data);
         window.location = `/devices/owned/${inputdata.deviceId}`;
         
@@ -94,6 +95,20 @@ class EditTradeAgreement extends Component{
                     </div>
 
                     <br></br>
+
+                    <div>
+                      <TextField
+                          required
+                          id="seller-id"
+                          label="Seller ID"
+                          onChange={this.handleChange('sellerId')}
+                          variant="outlined"
+                          value={this.state.sellerId}
+                      />
+                    </div>
+
+                    <br></br>
+
                     <div>
                       <TextField
                           required
@@ -105,18 +120,6 @@ class EditTradeAgreement extends Component{
                       />
                     </div>
                     <br></br>
-
-{/*                    <div>
-                      <TextField 
-                        required 
-                        id="device-dataDescription"
-                        label="Data Description"
-                        onChange={this.handleChange('dataDescription')}
-                        variant="outlined" />
-                    </div>
-                    <br></br>*/}
-  
-
   
                     <div>
                       <TextField
@@ -166,4 +169,4 @@ const classes = makeStyles((theme) => ({
   },
 }));
 
-export default EditTradeAgreement;
+export default WishToBuy;

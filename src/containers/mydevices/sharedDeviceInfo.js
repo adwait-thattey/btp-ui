@@ -158,10 +158,10 @@ export default function OwnedDeviceInfo(props) {
                         color="secondary"
                         size="large"
                         className={classes.button}
-                        endIcon={<Icon>storage</Icon>}
-                        onClick={() => { window.location = "/devices/data/" + deviceInfo["deviceId"] + "?shared=true" }}
+                        endIcon={<Icon>check</Icon>}
+                        onClick={() => { window.location = "/devices/wishtobuy/" + deviceInfo["deviceId"] + "?shared=true" }}
                     >
-                        Submit Interest Token
+                        Interested To Buy
                     </Button>
                 </div>
             </section>
