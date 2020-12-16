@@ -11,6 +11,7 @@ import OwnedDeviceInfo from "./containers/mydevices/ownedDeviceInfo";
 import SharedDeviceInfo from "./containers/mydevices/sharedDeviceInfo";
 import EditTradeAgreement from "./containers/mydevices/editTradeAgreement";
 import EditDevice from "./containers/mydevices/editDevice";
+import WishToBuy from "./containers/mydevices/wishToBuy";
 // import './App.css';
 
 function App(props) {
@@ -26,7 +27,8 @@ function App(props) {
           <Route path="/devices/shared" component={SharedDevice} exact/>
             <Route path="/devices/new" component={NewDevice} exact/>
             <Route path="/devices/edit/:deviceId" component={EditDevice} exact/>
-            <Route path="/devices/tradeagreement/:deviceId" component={EditTradeAgreement} exact/>
+          <Route path="/devices/tradeagreement/:deviceId" component={EditTradeAgreement} exact/>
+          <Route path="/devices/wishtobuy/:deviceId" component={WishToBuy} exact/>
           <Route path="/devices/data/:deviceId" component={DeviceData} exact/>
         </Router>
       </React.Fragment>

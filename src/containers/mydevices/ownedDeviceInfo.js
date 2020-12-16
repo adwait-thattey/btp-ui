@@ -31,6 +31,54 @@ const modifyTradeAgreementsdata = incomingdata => {
         return data
     })
 }
+const modifySharedInfodata = incomingdata => {
+    console.log("Shared data from APi", incomingdata)
+
+    let pendingRequests = incomingdata.pending
+    let sharedRequests = incomingdata.shared
+    if (pendingRequests)
+        pendingRequests = JSON.parse(pendingRequests)
+    else
+        pendingRequests = []
+
+    if (sharedRequests)
+        sharedRequests = JSON.parse(sharedRequests).acl
+    else
+        sharedRequests = []
+
+
+    console.log("Pending Requests", pendingRequests)
+    console.log("Shared Requests", sharedRequests)
+
+    const combinedSharedInfo = []
+    for (const p of pendingRequests){
+        combinedSharedInfo.push({
+            target:p.bidderId,
+            tradeId:p.tradeId,
+            revoke_time:p.revoke_time,
+            status:"pending"
+        })
+    }
+
+    for (const s of sharedRequests){
+        combinedSharedInfo.push({
+            target:s.buyerId,
+            tradeId:s.tradeId,
+            revoke_time:s.revoke_time,
+            status:"shared"
+        })
+    }
+
+        return combinedSharedInfo
+}
+
+const invokeAgreeToSell = async (params) => {
+    const res = await API.post(`/devices/confirmsell`,{"deviceId":params.deviceId, "tradeId":params.tradeId, "bidderId":params.bidderId});
+    console.log(res.data)
+
+    window.location = `/devices/owned/${params.deviceId}`;
+
+}
 export default function OwnedDeviceInfo(props) {
   const classes = useStyles();
   const [deviceInfo, setDeviceInfo] = useState({});
@@ -45,12 +93,12 @@ export default function OwnedDeviceInfo(props) {
         const res1 = await API.post(`/devices/`,{"deviceId":props.match.params.deviceId});
         // const res2 = await API.get('/devices/owned/private');
         const res3 = await API.post(`/devices/tradeagreements/all`,{"deviceId":props.match.params.deviceId});
-        // const res4 = await API.get('/devices/owned/shareStatus');
+        const res4 = await API.post('/devices/tradeStatus',{"deviceId":props.match.params.deviceId});
     
         setDeviceInfo(modifyDevicedata(res1.data.data));
         // setDevicePrivateInfo(res2.data);
         setDeviceTradeAgreements(modifyTradeAgreementsdata(res3.data.data));
-        // setDeviceSharedInfo(res4.data);
+        setDeviceSharedInfo(modifySharedInfodata(res4.data));
 
       }catch(error){
         console.log(error);
@@ -70,7 +118,7 @@ export default function OwnedDeviceInfo(props) {
               "price":"300"
           }
       )*/
-      setDeviceSharedInfo(
+/*      setDeviceSharedInfo(
           [
               {
                   "target":"Org2MSP",
@@ -89,7 +137,7 @@ export default function OwnedDeviceInfo(props) {
               }
           ]
 
-      )
+      )*/
   }, []);
 
   // useEffect(() => {
@@ -132,7 +180,7 @@ const changeOnSale = async (on_sale) => {
                   size="large"
                   className={classes.button}
                   endIcon={<Icon>check</Icon>}
-                  // onClick={() => { }
+                  onClick={() => { invokeAgreeToSell({deviceId:props.match.params.deviceId, tradeId:info.tradeId, bidderId:info.target})}}
               >
                   Approve
               </Button>
@@ -196,7 +244,8 @@ const changeOnSale = async (on_sale) => {
       return [
           {title: 'Target', field:'target'},
           {title: 'Status', field:'status'},
-          {title: 'End Time', field:'endTime'},
+          {title: 'Trade Id', field:'tradeId'},
+          {title: 'End Time', field:'revoke_time'},
           {title: 'Actions', field:'actions'},
       ]
   }
