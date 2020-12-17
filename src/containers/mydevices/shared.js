@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '80vw',
   }
 }));
-var images = [ './unnamed1.png', 'unnamed2.jpeg', 'unnamed3.jpeg', 'unnamed4.jpeg', 'unnamed5.jpeg'];
+const images = [ '/unnamed1.png', '/unnamed2.jpeg', '/unnamed3.jpeg', '/unnamed4.jpeg', '/unnamed5.jpeg'];
 
 const modifySharedDeevicesData = incoming_data => {
 

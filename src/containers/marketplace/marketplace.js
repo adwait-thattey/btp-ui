@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-var images = [ './unnamed1.png', 'unnamed2.jpeg', 'unnamed3.jpeg', 'unnamed4.jpeg', 'unnamed5.jpeg'];
+const images = [ '/unnamed1.png', '/unnamed2.jpeg', '/unnamed3.jpeg', '/unnamed4.jpeg', '/unnamed5.jpeg'];
 
 const modifyMarketData = (incomingData) => {
   console.log("API Response", incomingData)

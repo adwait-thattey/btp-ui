@@ -12,8 +12,8 @@ function Toolbar(props){
                 <li><a href="/marketplace">Marketplace </a></li>
                 <li><a href="/devices/owned">My Devices </a></li>
                 <li><a href="/devices/shared">Shared Devices </a></li>
-                <li><a href="/transactions">Transaction Logs </a></li>
-                <li><a href="/logout">Logout </a></li>
+                {/*<li><a href="/transactions">Transaction Logs </a></li>*/}
+                {/*<li><a href="/logout">Logout </a></li>*/}
            </ul>           
             <NavIcon icon={<FontAwesomeIcon icon={faUsers} size="lg" />} >
                 {config.orgMSP}

@@ -68,10 +68,10 @@ class WishToBuy extends Component{
           <Grid container spacing={3}>
             <Grid item xs={4}></Grid>
             <Grid item xs={4}>
-              <Paper className={classes.paper}>
+              <Paper style={{width: '400px', padding: '40px', boxShadow:'0px 0px 2px 1px grey'}}>
                 <form className={classes.form} onSubmit={this.handleSubmit} noValidate autoComplete="off">
-                  <div>
-                    <div>
+                  <Grid container justify='center' spacing={3} direction="column" alignItems="center" >
+                    <Grid item xs={12}>
                       <TextField 
                         required 
                         id="device-id" 
@@ -80,10 +80,9 @@ class WishToBuy extends Component{
                         variant="outlined"
                         value={this.state.deviceId}
                       />
-                    </div>
-  
-                    <br></br>
-                    <div>
+                    </Grid>
+
+                    <Grid item xs={12}>
                       <TextField
                           required
                           id="trade-id"
@@ -92,11 +91,9 @@ class WishToBuy extends Component{
                           variant="outlined"
                           value={this.state.tradeId}
                       />
-                    </div>
+                    </Grid>
 
-                    <br></br>
-
-                    <div>
+                    <Grid item xs={12}>
                       <TextField
                           required
                           id="seller-id"
@@ -105,11 +102,9 @@ class WishToBuy extends Component{
                           variant="outlined"
                           value={this.state.sellerId}
                       />
-                    </div>
+                    </Grid>
 
-                    <br></br>
-
-                    <div>
+                    <Grid item xs={12}>
                       <TextField
                           required
                           id="device-description"
@@ -118,10 +113,8 @@ class WishToBuy extends Component{
                           variant="outlined"
                           value={this.state.tradePrice}
                       />
-                    </div>
-                    <br></br>
-  
-                    <div>
+                    </Grid>
+                    <Grid item xs={12}>
                       <TextField
                           id="datetime-local"
                           label="Revoke Time"
@@ -134,9 +127,8 @@ class WishToBuy extends Component{
                           variant="outlined"
                           onChange={this.handleChange("tradeRevokeTime")}
                       />
-                    </div>
-                    <br/><br/>
-                    <div>
+                    </Grid>
+                    <Grid item xs={12}>
                       <Button
                         variant="contained"
                         color="primary"
@@ -146,8 +138,8 @@ class WishToBuy extends Component{
                       >
                         Submit
                       </Button>
-                    </div>
-                  </div>
+                    </Grid>
+                  </Grid>
                 </form>
               </Paper>
             </Grid>
