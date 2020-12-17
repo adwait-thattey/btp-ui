@@ -91,14 +91,7 @@ class EditTradeAgreement extends Component{
                           value={this.state.tradePrice}
                       />
                     </Grid>                    
-                    <Grid item xs={12}>
-                      <TextField 
-                        required 
-                        id="device-dataDescription"
-                        label="Data Description"
-                        onChange={this.handleChange('dataDescription')}
-                        variant="outlined" />
-                    </Grid>
+
                     <Grid item xs={12}>
                       <TextField
                           id="datetime-local"
