@@ -10,7 +10,8 @@ import Icon from '@material-ui/core/Icon';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import API from '../../utils/axios';
-import {Checkbox, Switch, TextareaAutosize} from '@material-ui/core';
+import {Checkbox, Snackbar, Switch, TextareaAutosize} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 
 class NewDevice extends Component{
 
@@ -19,6 +20,7 @@ class NewDevice extends Component{
     dataDescription: '',
     deviceDescription: '',
     deviceSecret: '',
+    snackbar_state : false
 
   }
 
@@ -43,16 +45,52 @@ class NewDevice extends Component{
       deviceSecret: this.state.deviceSecret
     }
     try{
-      async function postData(){
+      const postData = async () =>{
         const response = await API.post('/devices/register', data );
         console.log(response.data);
-        window.location = `/devices/owned/${data.deviceId}`;
-        
+
+        const filedownload_elem = document.getElementById('hidden-download-button')
+        filedownload_elem.href = `data:text/json;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(response.data.data.certificate)
+        )}`
+
+        filedownload_elem.download = `${data.deviceId}.id`
+
+        filedownload_elem.click()
+
+        const cur_state = this.state
+        cur_state.snackbar_state = true
+        this.setState(cur_state)
+
+        setTimeout(()=> {
+          window.location = `/devices/owned/${data.deviceId}`;
+        }, 3500)
+
       }
       postData();
     }catch(error){
       console.log(error);
     }
+  }
+
+  handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    const cur_state = this.state
+    cur_state.snackbar_state = false
+    this.setState(cur_state)
+  }
+
+  handleSnackbarOpen = () => {
+    const cur_state = this.state
+    cur_state.snackbar_state = true
+    this.setState(cur_state)
+  }
+
+  Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
   render(){
@@ -150,6 +188,22 @@ class NewDevice extends Component{
                         Submit
                       </Button>
                     </div>
+                    <a
+                        id="hidden-download-button"
+                        href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                            JSON.stringify({"hello":"world", "new":"data"})
+                        )}`}
+                        style={{display:'none'}}
+                        download="certificate.json"
+                    >
+                      {`Download Json`}
+                    </a>
+
+                    <Snackbar open={this.state.snackbar_state} autoHideDuration={6000} onClose={this.handleSnackbarClose}>
+                      <this.Alert onClose={this.handleSnackbarClose} severity="success">
+                        Device Created Successfully
+                      </this.Alert>
+                    </Snackbar>
                   </div>
                 </form>
               </Paper>

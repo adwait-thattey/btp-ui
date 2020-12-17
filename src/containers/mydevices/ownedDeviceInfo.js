@@ -9,6 +9,8 @@ import Table from "../../components/devices/Table";
 import Icon from "@material-ui/core/Icon";
 import Button from "@material-ui/core/Button";
 import config from "../../config/config";
+import MuiAlert from '@material-ui/lab/Alert';
+import {Snackbar} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -72,19 +74,14 @@ const modifySharedInfodata = incomingdata => {
         return combinedSharedInfo
 }
 
-const invokeAgreeToSell = async (params) => {
-    const res = await API.post(`/devices/confirmsell`,{"deviceId":params.deviceId, "tradeId":params.tradeId, "bidderId":params.bidderId});
-    console.log(res.data)
 
-    window.location = `/devices/owned/${params.deviceId}`;
-
-}
 export default function OwnedDeviceInfo(props) {
   const classes = useStyles();
   const [deviceInfo, setDeviceInfo] = useState({});
   // const [devicePrivateInfo, setDevicePrivateInfo] = useState({});
   const [deviceTradeAgreements, setDeviceTradeAgreements] = useState([]);
   const [deviceSharedInfo, setDeviceSharedInfo] = useState([]);
+  const [snackbar_state, set_snackbar_state] = useState(false)
 
   useEffect(() => {
     async function fetchData(){
@@ -155,8 +152,17 @@ export default function OwnedDeviceInfo(props) {
   //         })
 
 
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
 
+        set_snackbar_state(false)
+    }
 
+    const handleSnackbarOpen = () => {
+        set_snackbar_state(true)
+    }
   // }, [])
 const changeOnSale = async (on_sale) => {
     const res1 = await API.post(`/devices/`,{"deviceId":props.match.params.deviceId});
@@ -169,7 +175,28 @@ const changeOnSale = async (on_sale) => {
     const res2 = await API.post(`/devices/update`,updateData);
     window.location = `/devices/owned/${updateData.deviceId}`;
 }
+    const invokeAgreeToSell = async (params) => {
+        const res = await API.post(`/devices/confirmsell`,{"deviceId":params.deviceId, "tradeId":params.tradeId, "bidderId":params.bidderId});
+        console.log(res.data)
 
+        const filedownload_elem = document.getElementById('hidden-download-button')
+        filedownload_elem.href = `data:text/json;charset=utf-8,${encodeURIComponent(
+            res.data.receipt
+        )}`
+
+        filedownload_elem.download = `${params.deviceId}_${params.tradeId}_receipt.json`
+
+        filedownload_elem.click()
+
+        handleSnackbarOpen()
+
+        setTimeout(()=> {
+            window.location = `/devices/owned/${params.deviceId}`;
+
+        }, 3500)
+
+
+    }
   const sharedInfoWithActions = () => {
       const completeSharedInfo = [...deviceSharedInfo]
       for (const info of completeSharedInfo){
@@ -267,6 +294,9 @@ const changeOnSale = async (on_sale) => {
         ]
     }
 
+    const Alert = (props) => {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
   return (
       <Layout>
           <section>
@@ -308,6 +338,22 @@ const changeOnSale = async (on_sale) => {
                   >
                       View Data
                   </Button>
+                  <a
+                      id="hidden-download-button"
+                      href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                          JSON.stringify({"hello":"world", "new":"data"})
+                      )}`}
+                      style={{display:'none'}}
+                      download="certificate.json"
+                  >
+                      {`Download Json`}
+                  </a>
+
+                  <Snackbar open={snackbar_state} autoHideDuration={6000} onClose={handleSnackbarClose}>
+                      <Alert onClose={handleSnackbarClose} severity="success">
+                          Access To Data Granted
+                      </Alert>
+                  </Snackbar>
               </div>
           </section>
       </Layout>
