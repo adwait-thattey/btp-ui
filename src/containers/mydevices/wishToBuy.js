@@ -52,7 +52,7 @@ class WishToBuy extends Component{
       async function postData(){
         const response = await API.post('/market/devices/interesttokens/submit', data );
         console.log(response.data);
-        window.location = `/devices/owned/${inputdata.deviceId}`;
+        window.location = `/devices/shared/${inputdata.deviceId}`;
         
       }
       postData();
