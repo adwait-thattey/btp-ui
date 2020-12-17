@@ -3,9 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Layout from '../../hoc/Layout/Layout';
-// import DeleteIcon from '@material-ui/icons/Delete';
-// import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-// import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import Icon from '@material-ui/core/Icon';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -18,17 +15,12 @@ class EditDevice extends Component{
     deviceId: this.props.match.params.deviceId,
     dataDescription: '',
     deviceDescription: '',
-
   }
-
-
 
   handleChange = input => event => {
     const formFields = {...this.state}
     formFields[input] = event.target.value;
     this.setState(formFields);
-
-
   };
 
   handleSubmit = async (event) => {
@@ -47,7 +39,6 @@ class EditDevice extends Component{
         const response = await API.post('/devices/update', data );
         console.log(response.data);
         window.location = `/devices/owned/${data.deviceId}`;
-        
       }
       postData();
     }catch(error){
@@ -59,78 +50,43 @@ class EditDevice extends Component{
     return (
       <Layout>
         <section>
-          <Grid container spacing={3}>
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.paper}>
+          <Grid container justify='center' >     
+              <Paper style={{width: '400px', padding: '40px', boxShadow:'0px 0px 2px 1px grey'}}>     
                 <form className={classes.form} onSubmit={this.handleSubmit} noValidate autoComplete="off">
-                  <div>
-                    <div>
+                  <Grid container justify='center' spacing={3} direction="column" alignItems="center" > 
+                    <Grid item xs={12}>
                       <TextField 
-                        required 
+                        multiline 
                         id="device-id" 
                         label="Device ID" 
                         onChange={this.handleChange('deviceId')} 
                         variant="outlined"
                         value={this.state.deviceId}
                       />
-                    </div>
-  
-                    <br></br>
-
-                    <div>
+                    </Grid>
+                    <Grid item xs={12}>                    
                       <TextField
-                          required
+                          multiline
                           id="device-description"
                           onChange={this.handleChange('deviceDescription')}
                           label="Device Description"
                           variant="outlined"
                           value={this.state.deviceDescription}
                       />
-                    </div>
-                    <br></br>
-
-{/*                    <div>
-                      <TextField 
-                        required 
-                        id="device-dataDescription"
-                        label="Data Description"
-                        onChange={this.handleChange('dataDescription')}
-                        variant="outlined" />
-                    </div>
-                    <br></br>*/}
-
-
-                    {/*<div>
-                      <Switch
-                          checked={false}
-                          onChange={this.handleChange('onSale')}
-                          name="deviceOnSale"
-                          // inputProps={{ 'aria-label': 'secondary checkbox' }}
-                      />
-                      <Checkbox
-                          checked={false}
-                          onChange={this.handleChange('onSale')}
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
-                      />
-                    </div>*/}
-                    <br/><br/>
-                    <div>
+                    </Grid>
+                    <Grid item xs={12}>
                       <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        endIcon={<Icon>send</Icon>}
-                        type="submit"
-                      >
-                        Submit
+                          variant="contained"
+                          color="primary"
+                          className={classes.button}
+                          endIcon={<Icon>send</Icon>}
+                          type="submit"
+                        > Submit
                       </Button>
-                    </div>
-                  </div>
+                    </Grid>  
+                  </Grid> 
                 </form>
               </Paper>
-            </Grid>
-            <Grid item xs={4}></Grid>
           </Grid>
         </section>
       </Layout>

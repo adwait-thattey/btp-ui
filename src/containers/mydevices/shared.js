@@ -15,7 +15,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  grid_container: {
+    maxWidth: '80vw',
+  }
 }));
+var images = [ './unnamed1.png', 'unnamed2.jpeg', 'unnamed3.jpeg', 'unnamed4.jpeg', 'unnamed5.jpeg'];
 
 const modifySharedDeevicesData = incoming_data => {
 
@@ -25,7 +29,7 @@ const modifySharedDeevicesData = incoming_data => {
             id: data,
             owner:"Org2MSP",
             description:"Shared Device",
-            coverImage : "/paella.jpg"
+            coverImage : images[Math.floor(Math.random()*images.length)]
         }
 
         return obj
@@ -47,88 +51,22 @@ export default function SharedDevices(props) {
 	  }
 		fetchData();
 	}, []);
-
-  // useEffect(() => {
-  //     setSharedDevices([
-  //       {
-  //         "id": "abcd123",
-  //         "owner": "AdwaitOrg",
-  //         "name": "Shared Device 1",
-  //         "createdOn":"Nov 1, 2020",
-  //         "type": "type1",
-  //         "description": "Adwait's Device 1",
-  //         "lastUpdated": 5,
-  //         "coverImage":"/paella.jpg"
-  //       },
-  //       {
-  //           "id": "abcd345",
-  //           "owner": "SiddhantOrg",
-  //           "name": "Shared Device 2",
-  //           "createdOn":"Oct 22, 2020",
-  //           "type": "type1",
-  //           "description": "Siddhant's third device",
-  //           "lastUpdated": 21,
-  //           "coverImage":"/paella.jpg"
-  //         },
-  //         {
-  //           "id": "kkk12",
-  //           "owner": "MahhamadOrg",
-  //           "name": "Mahhamad's Device 2",
-  //           "createdOn":"July 1, 2020",
-  //           "type": "type1",
-  //           "description": "Mahammad's 2nd Device",
-  //           "lastUpdated": 7,
-  //           "coverImage":"/paella.jpg"
-  //         },
-  //         {
-  //           "id": "gfg45",
-  //           "owner": "AdwaitOrg",
-  //           "name": "Adwait Device 5",
-  //           "createdOn":"Oct 4, 2020",
-  //           "type": "type1",
-  //           "description": "Adwait's Device 5",
-  //           "lastUpdated": 0,
-  //           "coverImage":"/paella.jpg"
-  //         },
-        
-  //     ])
-  // }, [])
   
   return (
     <Layout>
-    <section>
-        <div style={ {width: '75%', textAlign:'center', marginLeft:'15vw', marginBottom:'50px'}}>
-        <div className={classes.root}>
-            <Grid container spacing={3}>
-                {/* <Grid item xs={12}>
-                <Paper className={classes.paper}>xs=12</Paper>
+      <section>
+        <Grid container justify='center'>
+          <Grid container spacing={3}  className={classes.grid_container}>
+            {
+              sharedDevices.map((value) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={value.id}>
+                    <MarketCard device={value} actions={["Learn More",]} />
                 </Grid>
-                <Grid item xs={6}>
-                <Paper className={classes.paper}>xs=6</Paper>
-                </Grid>
-                <Grid item xs={6}>
-                <Paper className={classes.paper}>xs=6</Paper>
-                </Grid> */}
-                {sharedDevices.map((value) => (
-                  <Grid item xs={4} key={value.id}>
-                  <MarketCard device={value} actions={["Learn More",]} />
-                  </Grid>
-                ))}
-                
-                {/* <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-                </Grid>
-                <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-                </Grid>
-                <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-                </Grid> */}
-            </Grid>
-        </div>
-       </div>
-    </section>
+              ))
+            }
+          </Grid>
+        </Grid>
+      </section>
     </Layout>
-    
   );
 }

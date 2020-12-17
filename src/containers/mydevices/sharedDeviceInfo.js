@@ -51,34 +51,6 @@ export default function OwnedDeviceInfo(props) {
       fetchData();
     }, []);
 
-    // useEffect(() => {
-    //     setDeviceInfo(
-    //         {
-    //             "id": "abcd123",
-    //             "owner": "AdwaitOrg",
-    //             "name": "Shared Device 1",
-    //             "createdOn":"Nov 1, 2020",
-    //             "type": "type1",
-    //             "description": "Adwait's Device 1",
-    //             "lastUpdated": 5,
-    //             "coverImage":"/paella.jpg",
-    //             "onSale":true
-    //         })
-
-    //     setDeviceTradeAgreement(
-    //         {
-    //             "id":"trade3345",
-    //             "price":"300"
-    //         }
-    //     )
-
-    //     setDeviceShareStatusInfo(
-    //         {
-    //             "shared":true
-    //         }
-    //     )
-    // }, [])
-
     const deviceInfoTabledData = () => {
         const keysToDisplay = ["deviceId", "owner", "description", "dataDescription", "onSale"]
         // const tradeAgreementKeysToDisplay = ["id", "price"]

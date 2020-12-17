@@ -16,7 +16,7 @@
 
 .items {    
     display: flex;
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     font-weight: bolder;
     /* margin-left: 10vw; */
 }
@@ -36,7 +36,7 @@
 
 .items a:hover {
     /* color: rgb(199, 100, 224); */
-    border-bottom: 2px solid rgb(95, 151, 224);
+    border-bottom: 2px solid rgb(188, 208, 231);
 
 }
 

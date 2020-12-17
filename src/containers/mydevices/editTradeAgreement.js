@@ -3,9 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Layout from '../../hoc/Layout/Layout';
-// import DeleteIcon from '@material-ui/icons/Delete';
-// import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-// import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import Icon from '@material-ui/core/Icon';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -19,27 +16,23 @@ class EditTradeAgreement extends Component{
     tradeId:'',
     tradePrice: '',
     tradeRevokeTime: '',
-
   }
-
-
 
   handleChange = input => event => {
     console.log("Handle change called")
     const formFields = {...this.state}
     formFields[input] = event.target.value;
     this.setState(formFields);
-
-
     console.log(this.state)
-
   };
 
   handleSubmit = (event) => {
+    
     console.log("Starting Submission for Create Device")
     console.log(this.state)
     const inputdata = this.state
     event.preventDefault();
+    
     const data = {
       deviceId: this.state.deviceId,
       tradeId: "trade" + this.state.tradeId,
@@ -47,12 +40,12 @@ class EditTradeAgreement extends Component{
       tradePrice: parseInt(this.state.tradePrice),
       revoke_time: new Date(this.state.tradeRevokeTime).getTime()/1000,
     }
+
     try{
       async function postData(){
         const response = await API.post('/devices/agreetosell', data );
         console.log(response.data);
         window.location = `/devices/owned/${inputdata.deviceId}`;
-        
       }
       postData();
     }catch(error){
@@ -64,13 +57,11 @@ class EditTradeAgreement extends Component{
     return (
       <Layout>
         <section>
-          <Grid container spacing={3}>
-            <Grid item xs={4}></Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.paper}>
+          <Grid container justify='center' >     
+              <Paper style={{width: '400px', padding: '40px', boxShadow:'0px 0px 2px 1px grey'}}>     
                 <form className={classes.form} onSubmit={this.handleSubmit} noValidate autoComplete="off">
-                  <div>
-                    <div>
+                  <Grid container justify='center' spacing={3} direction="column" alignItems="center" > 
+                    <Grid item xs={12}>
                       <TextField 
                         required 
                         id="device-id" 
@@ -79,10 +70,8 @@ class EditTradeAgreement extends Component{
                         variant="outlined"
                         value={this.state.deviceId}
                       />
-                    </div>
-  
-                    <br></br>
-                    <div>
+                    </Grid>
+                    <Grid item xs={12}>
                       <TextField
                           required
                           id="trade-id"
@@ -91,10 +80,8 @@ class EditTradeAgreement extends Component{
                           variant="outlined"
                           value={this.state.tradeId}
                       />
-                    </div>
-
-                    <br></br>
-                    <div>
+                    </Grid>
+                    <Grid item xs={12}>
                       <TextField
                           required
                           id="device-description"
@@ -103,22 +90,16 @@ class EditTradeAgreement extends Component{
                           variant="outlined"
                           value={this.state.tradePrice}
                       />
-                    </div>
-                    <br></br>
-
-{/*                    <div>
+                    </Grid>                    
+                    <Grid item xs={12}>
                       <TextField 
                         required 
                         id="device-dataDescription"
                         label="Data Description"
                         onChange={this.handleChange('dataDescription')}
                         variant="outlined" />
-                    </div>
-                    <br></br>*/}
-  
-
-  
-                    <div>
+                    </Grid>
+                    <Grid item xs={12}>
                       <TextField
                           id="datetime-local"
                           label="Revoke Time"
@@ -131,24 +112,20 @@ class EditTradeAgreement extends Component{
                           variant="outlined"
                           onChange={this.handleChange("tradeRevokeTime")}
                       />
-                    </div>
-                    <br/><br/>
-                    <div>
+                    </Grid>                    
+                    <Grid item xs={12}>
                       <Button
                         variant="contained"
                         color="primary"
                         className={classes.button}
                         endIcon={<Icon>send</Icon>}
                         type="submit"
-                      >
-                        Submit
+                      >  Submit
                       </Button>
-                    </div>
-                  </div>
+                    </Grid>
+                  </Grid> 
                 </form>
               </Paper>
-            </Grid>
-            <Grid item xs={4}></Grid>
           </Grid>
         </section>
       </Layout>

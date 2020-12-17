@@ -15,59 +15,20 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  grid_container: {
+    maxWidth: '80vw',
+  }
 }));
 
-const modifyMarketData = (incomingData) => {
+var images = [ './unnamed1.png', 'unnamed2.jpeg', 'unnamed3.jpeg', 'unnamed4.jpeg', 'unnamed5.jpeg'];
 
-/*
-* Incoming:
-* [
-        {
-            "owner": "Org1MSP",
-            "deviceId": "o1dev2",
-            "dataDescription": "Same random 01 data",
-            "description": "new details of device 002",
-            "onSale": true
-        },
-        {
-            "owner": "Org1MSP",
-            "deviceId": "o1dev3",
-            "dataDescription": "Same random 03 data",
-            "description": "new details of device 002",
-            "onSale": true
-        }
-    ]
-*
-* Out:
-*   [
-        {
-          "id": "abcd123",
-          "owner": "Org1MSP",
-          "name": "Adwait's Device 1",
-          "createdOn":"Nov 1, 2020",
-          "type": "type1",
-          "description": "Adwait's Device 1",
-          "lastUpdated": 5,
-          "coverImage":"/paella.jpg"
-        },
-        {
-            "id": "abcd345",
-            "owner": "SiddhantOrg",
-            "name": "Siddhant's Device 3",
-            "createdOn":"Oct 22, 2020",
-            "type": "type1",
-            "description": "Siddhant's third device",
-            "lastUpdated": 21,
-            "coverImage":"/paella.jpg"
-          },
-      ]
-* */
-        console.log("API Response", incomingData)
-        return incomingData.map(data => {
-            data.id = data.deviceId
-            data.coverImage = "/paella.jpg"
-            return data
-        })
+const modifyMarketData = (incomingData) => {
+  console.log("API Response", incomingData)
+  return incomingData.map(data => {
+      data.id = data.deviceId
+      data.coverImage = images[Math.floor(Math.random()*images.length)]
+      return data
+  })
 }
 
 export default function Marketplace(props) {
@@ -84,99 +45,24 @@ export default function Marketplace(props) {
       }
 	  }
 		fetchData();
-	}, []);
-
-  // useEffect(() => {
-  //     setMarketDevices([
-  //       {
-  //         "id": "abcd123",
-  //         "owner": "Org1MSP",
-  //         "name": "Adwait's Device 1",
-  //         "createdOn":"Nov 1, 2020",
-  //         "type": "type1",
-  //         "description": "Adwait's Device 1",
-  //         "lastUpdated": 5,
-  //         "coverImage":"/paella.jpg"
-  //       },
-  //       {
-  //           "id": "abcd345",
-  //           "owner": "SiddhantOrg",
-  //           "name": "Siddhant's Device 3",
-  //           "createdOn":"Oct 22, 2020",
-  //           "type": "type1",
-  //           "description": "Siddhant's third device",
-  //           "lastUpdated": 21,
-  //           "coverImage":"/paella.jpg"
-  //         },
-  //         {
-  //           "id": "kkk12",
-  //           "owner": "MahhamadOrg",
-  //           "name": "Mahhamad's Device 2",
-  //           "createdOn":"July 1, 2020",
-  //           "type": "type1",
-  //           "description": "Mahammad's 2nd Device",
-  //           "lastUpdated": 7,
-  //           "coverImage":"/paella.jpg"
-  //         },
-  //         {
-  //           "id": "gfg45",
-  //           "owner": "AdwaitOrg",
-  //           "name": "Adwait Device 5",
-  //           "createdOn":"Oct 4, 2020",
-  //           "type": "type1",
-  //           "description": "Adwait's Device 5",
-  //           "lastUpdated": 0,
-  //           "coverImage":"/paella.jpg"
-  //         },
-  //         {
-  //           "id": "lalapop",
-  //           "owner": "AdwaitOrg",
-  //           "name": "Ad Dev 7",
-  //           "createdOn":"Nov 3, 2020",
-  //           "type": "type1",
-  //           "description": "Adwait's Device 7",
-  //           "lastUpdated": 53,
-  //           "coverImage":"/paella.jpg"
-  //         },
-
-  //     ])
-  // }, [])
+  }, []);
   
   return (
     <Layout>
     <section>
-        <div style={ {width: '75%', textAlign:'center', marginLeft:'15vw', marginBottom:'50px'}}>
-        <div className={classes.root}>
-            <Grid container spacing={3}>
-                {/* <Grid item xs={12}>
-                <Paper className={classes.paper}>xs=12</Paper>
-                </Grid>
-                <Grid item xs={6}>
-                <Paper className={classes.paper}>xs=6</Paper>
-                </Grid>
-                <Grid item xs={6}>
-                <Paper className={classes.paper}>xs=6</Paper>
-                </Grid> */}
-                {marketDevices.map((value) => (
-                  <Grid item xs={4} key={value.id} >
-                  <MarketCard device={value} />
-                  </Grid>
-                ))}
-                
-                {/* <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-                </Grid>
-                <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-                </Grid>
-                <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-                </Grid> */}
-            </Grid>
-        </div>
-       </div>
+      <Grid container justify='center'>
+        <Grid container spacing={3}  className={classes.grid_container}>
+          {
+            marketDevices.map((value) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={value.id}>
+                <MarketCard device={value} />
+              </Grid>
+            ))
+          }
+        </Grid>
+      </Grid>
     </section>
-    </Layout>
+  </Layout>
     
   );
 }
